@@ -15,3 +15,6 @@ Route::apiResource('units', UnitController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
+Route::get('store/new', [ProductController::class, 'newArrivalsHome']);
+Route::get('store/popular', [ProductController::class, 'popularHome']);
+Route::get('store/deals', [ProductController::class, 'dealsHome']);

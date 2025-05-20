@@ -36,6 +36,19 @@ class ProductController extends Controller
         // return Product::with(['brand', 'category', 'unit'])->latest()->paginate(10);
     }
 
+    public function newArrivalsHome(){
+        return Product::with(['brand', 'category', 'unit'])->latest()->paginate(4);
+    }
+    public function popularHome(){
+        return Product::with(['brand', 'category', 'unit'])->inRandomOrder()->paginate(4);
+    }
+    public function dealsHome(){
+        return Product::with(['brand', 'category', 'unit'])
+                 ->where('discount', '>', 0)
+                 ->orderBy('discount', 'desc')
+                 ->paginate(4);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

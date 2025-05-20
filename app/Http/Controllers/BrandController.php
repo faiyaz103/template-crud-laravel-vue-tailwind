@@ -101,7 +101,7 @@ class BrandController extends Controller
             'brand_image' => $brand->brand_image,
         ]);
 
-        return response()->json($brand);
+        return response()->json($brand, 200);
     }
 
     /**

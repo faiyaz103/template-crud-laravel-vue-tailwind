@@ -21,6 +21,7 @@ import EditCategory from "../pages/store-admin/categories/EditCategory.vue";
 import Brands from "../pages/store-admin/brands/Brands.vue";
 import AddBrand from "../pages/store-admin/brands/AddBrand.vue";
 import EditBrand from "../pages/store-admin/brands/EditBrand.vue";
+import EditProduct from "../pages/store-admin/products/EditProduct.vue";
 
 const routes = [
     {path: '/', component:Home},
@@ -37,6 +38,7 @@ const routes = [
 
     {path: '/products', component:Products},
     {path: '/add-product', component:AddProduct},
+    {path: '/edit-product/:id', component:EditProduct},
 
     {path: '/units', component:Units},
     {path: '/add-unit', component:AddUnit},

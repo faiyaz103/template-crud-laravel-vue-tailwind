@@ -18,7 +18,6 @@
             
             <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5">
               <label class="kt-form-label max-w-56">Name</label>
-              
               <input v-model="form.name" class="kt-input" placeholder="Nike" type="text" />
             </div>
 

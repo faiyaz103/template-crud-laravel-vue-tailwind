@@ -1,0 +1,29 @@
+const defaultThemeMode = 'light';
+let themeMode;
+
+if (document.documentElement) {
+  if (localStorage.getItem('kt-theme')) {
+    themeMode = localStorage.getItem('kt-theme');
+  } else if (document.documentElement.hasAttribute('data-kt-theme-mode')) {
+    themeMode = document.documentElement.getAttribute('data-kt-theme-mode');
+  } else {
+    themeMode = defaultThemeMode;
+  }
+
+  if (themeMode === 'system') {
+    themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }
+
+  document.documentElement.classList.add(themeMode);
+}
+
+import './bootstrap';
+import {createApp} from 'vue';
+import App from './App.vue';
+import router from './router';
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app');

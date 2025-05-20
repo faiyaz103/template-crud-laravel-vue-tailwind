@@ -45,9 +45,9 @@
             </div>
             <div class="flex flex-col gap-2">
              <div class="flex items-center gap-2.5 -mt-1">
-              <a class="hover:text-primary text-sm font-medium text-mono leading-5.5" href="#">
+              <p class="text-sm font-medium text-mono leading-5.5">
                {{product.name}}
-              </a>
+              </p>
               <span
                 v-if="product.discount > 0"
                 class="kt-badge kt-badge-info kt-badge-sm uppercase"

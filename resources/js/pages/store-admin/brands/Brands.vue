@@ -46,9 +46,9 @@
             </div>
             <div class="flex flex-col gap-2">
              <div class="flex items-center gap-2.5 -mt-1">
-              <a class="hover:text-primary text-sm font-medium text-mono leading-5.5" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
+              <p class="text-sm font-medium text-mono leading-5.5">
               {{brand.name}}
-              </a>
+              </p>
              </div>
              
             </div>

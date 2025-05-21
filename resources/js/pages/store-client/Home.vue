@@ -13,14 +13,100 @@
         <div class="kt-input kt-input-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[420px] w-full z-1 shadow-[0px_3px_11px_0px_rgba(45,72,126,0.10)]">
          <i class="ki-filled ki-magnifier text-muted-foreground">
          </i>
-         <input placeholder="Search shop" type="text" value=""/>
-         <span class="kt-badge kt-badge-sm kt-badge-outline -me-1.5">
-          ⌘ K
-         </span>
+         <input
+            v-model="searchTerm"
+            @input="fetchProducts()"
+            placeholder="Search by product, brand, or category" 
+            type="text"
+        />
+
         </div>
        </div>
 
        <div class="space-y-4">
+        <!-- Search -->
+        <div v-if="searchTerm.trim()"  class="grid grid-cols-1 gap-5">
+         
+         <div v-for="product in products.data" :key="product.id" class="kt-card">
+          <div class="kt-card-content flex items-center flex-wrap justify-between p-2 pe-5 gap-4.5">
+           <div class="flex items-center gap-3.5">
+            <div class="kt-card flex items-center justify-center bg-accent/50 h-[70px] w-[90px] shadow-none">
+             <img alt="img" class="h-[70px] cursor-pointer" :src="'/storage/'+product.image"/>
+            </div>
+            <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2.5 -mt-1">
+              <p class="text-sm font-medium text-mono leading-5.5">
+               {{product.name}}
+              </p>
+              <span
+                v-if="product.discount > 0"
+                class="kt-badge kt-badge-info kt-badge-sm uppercase"
+               >
+               save {{product.discount}}%
+              </span>
+             </div>
+             <div class="flex items-center flex-wrap gap-3">
+              <!-- <template v-if="product.quantity > 0">
+                <div>
+                <span class="kt-badge kt-badge-success kt-badge-sm">
+                In Stock
+               </span>
+               </div>
+              </template> -->
+              <template v-if="product.quantity == 0">
+                <div>
+                <span class="kt-badge kt-badge-destructive kt-badge-sm">
+                Out of stock
+               </span>
+               </div>
+              </template>
+              <div class="flex items-center flex-wrap gap-2 lg:gap-4">
+               <!-- <span class="text-xs font-normal text-secondary-foreground uppercase">
+                SKU:
+                <span class="text-xs font-medium text-foreground">
+                 {{product.sku}}
+                </span>
+               </span> -->
+               <span class="text-xs font-normal text-secondary-foreground">
+                Brand:
+                <span class="text-xs font-medium text-foreground">
+                 {{ product.brand?.name }}
+                </span>
+               </span>
+               <span class="text-xs font-normal text-secondary-foreground">
+                Category:
+                <span class="text-xs font-medium text-foreground">
+                 {{ product.category?.name }}
+                </span>
+               </span>
+              </div>
+             </div>
+            </div>
+           </div>
+           
+           <template v-if="product.discount > 0">
+            <div class="flex items-center gap-1.5">
+            <span class="text-xs font-normal text-secondary-foreground line-through">
+             ${{ product.price }}
+            </span>
+            <span class="text-sm font-medium text-mono">
+             ${{ Math.floor(product.price - (product.price * product.discount / 100)) }}
+            </span>
+           </div>
+           </template>
+
+           <template v-else>
+            <div class="flex items-center gap-1.5">
+            <span class="text-sm font-medium text-mono">
+             ${{ product.price }}
+            </span>
+           </div>
+           </template>
+          </div>
+          
+         </div>
+        </div>
+
         <div class="flex items-center justify-between gap-4">
          <span class="text-lg font-medium text-mono">
           New Arrivals
@@ -42,6 +128,13 @@
              </span>
              <img :src="'/storage/'+newarrival.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
             </div>
+            <template v-if="newarrival.quantity == 0">
+                <div>
+                    <span class="kt-badge mx-2.5 kt-badge-destructive kt-badge-sm">
+                    Out of stock
+                    </span>
+                </div>
+            </template>
             <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ newarrival.name }}
             </a>
@@ -105,6 +198,13 @@
              </span>
              <img :src="'/storage/'+popular.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
             </div>
+            <template v-if="popular.quantity == 0">
+                <div>
+                    <span class="kt-badge mx-2.5 kt-badge-destructive kt-badge-sm">
+                    Out of stock
+                    </span>
+                </div>
+            </template>
             <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ popular.name }}
             </a>
@@ -168,6 +268,13 @@
              </span>
              <img :src="'/storage/'+deal.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
             </div>
+            <template v-if="deal.quantity == 0">
+                <div>
+                    <span class="kt-badge mx-2.5 kt-badge-destructive kt-badge-sm">
+                    Out of stock
+                    </span>
+                </div>
+            </template>
             <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ deal.name }}
             </a>
@@ -338,11 +445,26 @@ export default{
         return{
             newarrivals:{},
             popular:{},
-            deals:{}
+            deals:{},
+            products:{},
+            searchTerm:''
         }
     },
 
     methods:{
+        async fetchProducts(url='/api/products'){
+            try {
+                const {data}= await axios.get(url, {
+                    params:{
+                        search: this.searchTerm
+                    }
+                });
+                this.products=data;
+            } catch (error) {
+                console.error('Failed to load', error);
+            }
+        },
+
         async fetchNewArrivals(url='/api/store/new'){
             try {
                 const {data} = await axios.get(url);

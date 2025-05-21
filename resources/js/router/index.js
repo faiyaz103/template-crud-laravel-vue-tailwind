@@ -23,7 +23,7 @@ import AddBrand from "../pages/store-admin/brands/AddBrand.vue";
 import EditBrand from "../pages/store-admin/brands/EditBrand.vue";
 import EditProduct from "../pages/store-admin/products/EditProduct.vue";
 import StoreHome from "../pages/store-client/Home.vue";
-
+import ProductDetails from "../pages/store-client/ProductDetails.vue";
 
 const routes = [
     {path: '/', component:Home},
@@ -54,7 +54,8 @@ const routes = [
     {path: '/add-brand', component:AddBrand},
     {path: '/edit-brand/:id', component:EditBrand},
 
-    {path: '/store/home', component:StoreHome}
+    {path: '/store/home', component:StoreHome},
+    {path: '/store/products/:id', component:ProductDetails},
 ];
 
 const router = createRouter({

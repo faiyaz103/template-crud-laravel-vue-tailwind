@@ -31,13 +31,15 @@
           <div class="kt-card-content flex items-center flex-wrap justify-between p-2 pe-5 gap-4.5">
            <div class="flex items-center gap-3.5">
             <div class="kt-card flex items-center justify-center bg-accent/50 h-[70px] w-[90px] shadow-none">
-             <img alt="img" class="h-[70px] cursor-pointer" :src="'/storage/'+product.image"/>
+             <router-link :to="`/store/products/${product.id}`">
+                <img alt="img" class="h-[70px] cursor-pointer" :src="'/storage/'+product.image"/>
+             </router-link>
             </div>
             <div class="flex flex-col gap-2">
              <div class="flex items-center gap-2.5 -mt-1">
-              <p class="text-sm font-medium text-mono leading-5.5">
+              <router-link :to="`/store/products/${product.id}`" class="text-sm font-medium text-mono leading-5.5">
                {{product.name}}
-              </p>
+              </router-link>
               <span
                 v-if="product.discount > 0"
                 class="kt-badge kt-badge-info kt-badge-sm uppercase"
@@ -126,7 +128,9 @@
              <span v-if="newarrival.discount > 0" class="kt-badge kt-badge-info kt-badge-sm absolute top-2 end-2 uppercase">
               save {{newarrival.discount}}%
              </span>
-             <img :src="'/storage/'+newarrival.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             <router-link :to="`/store/products/${newarrival.id}`">
+                 <img :src="'/storage/'+newarrival.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             </router-link>
             </div>
             <template v-if="newarrival.quantity == 0">
                 <div>
@@ -135,9 +139,9 @@
                     </span>
                 </div>
             </template>
-            <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
+            <router-link :to="`/store/products/${newarrival.id}`" class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ newarrival.name }}
-            </a>
+            </router-link>
             <span class="text-sm text-gray-600 px-2.5 leading-5.5 block">
                  {{ newarrival.brand?.name }}
             </span>
@@ -196,7 +200,9 @@
              <span v-if="popular.discount > 0" class="kt-badge kt-badge-info kt-badge-sm absolute top-2 end-2 uppercase">
               save {{popular.discount}}%
              </span>
-             <img :src="'/storage/'+popular.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             <router-link :to="`/store/products/${popular.id}`">
+                <img :src="'/storage/'+popular.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             </router-link>
             </div>
             <template v-if="popular.quantity == 0">
                 <div>
@@ -205,9 +211,9 @@
                     </span>
                 </div>
             </template>
-            <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
+            <router-link :to="`/store/products/${popular.id}`" class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ popular.name }}
-            </a>
+            </router-link>
             <span class="text-sm text-gray-600 px-2.5 leading-5.5 block">
                  {{ popular.brand?.name }}
             </span>
@@ -266,7 +272,9 @@
              <span v-if="deal.discount > 0" class="kt-badge kt-badge-info kt-badge-sm absolute top-2 end-2 uppercase">
               save {{deal.discount}}%
              </span>
-             <img :src="'/storage/'+deal.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             <router-link :to="`/store/products/${deal.id}`">
+                <img :src="'/storage/'+deal.image" alt="" class="h-[180px] shrink-0 cursor-pointer"/>
+             </router-link>
             </div>
             <template v-if="deal.quantity == 0">
                 <div>
@@ -275,9 +283,9 @@
                     </span>
                 </div>
             </template>
-            <a class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
+            <router-link :to="`/store/products/${deal.id}`" class="hover:text-primary text-sm font-medium text-mono px-2.5 leading-5.5 block" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
              {{ deal.name }}
-            </a>
+            </router-link>
             <span class="text-sm text-gray-600 px-2.5 leading-5.5 block">
                  {{ deal.brand?.name }}
             </span>
